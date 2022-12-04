@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 
-internal class Day1KtTest {
+internal class Day1Test {
     val input = """1000
         2000
         3000

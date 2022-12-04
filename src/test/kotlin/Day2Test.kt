@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 
-internal class Day2KtTest {
+internal class Day2Test {
     private val input = """A Y
                 B X
                 C Z""".lines()

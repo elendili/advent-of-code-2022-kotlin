@@ -3,10 +3,6 @@ https://adventofcode.com/2022/day/1
  */
 
 
-fun getResourceAsLines(path: String): List<String> =
-    object {}.javaClass.getResource(path).readText().lines()
-
-
 class Day1 {
 
     fun partOneSolution(lines: List<String>): Int {
