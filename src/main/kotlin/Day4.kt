@@ -6,7 +6,7 @@ class Day4 {
     fun rangesToIntPairs(lines: List<String>) : List<Pair<Pair<Int, Int>, Pair<Int, Int>>> =lines.map { it.split(",") }
             .map {
                 val lineOfPairs = it.map { it2 ->
-                    val range: List<Int> = it2.split("-").map { it3 -> it3.toInt() }
+                    val range: List<Int> = it2.split("-").mapToInts()
                     Pair(range.first(), range.last())
                 }
                 Pair(lineOfPairs.first(), lineOfPairs.last())
