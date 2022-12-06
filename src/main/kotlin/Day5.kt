@@ -2,17 +2,6 @@
 https://adventofcode.com/2022/day/3
  */
 
-fun CharSequence.splitIgnoreEmpty(regex : Regex): List<String> {
-    return this.split(regex).filter {
-        it.isNotEmpty()
-    }
-}
-
-fun Iterable<String>.mapToInts(): List<Int> {
-    return this.map{it.toInt()}
-}
-
-
 class Day5 {
     data class Move(val amount:Int, val from:Int, val to:Int)
     fun getStacks(list: List<String>): MutableList<MutableList<Char>> {
