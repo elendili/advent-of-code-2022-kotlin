@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
 internal class Day6Test {
-    private val input = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
 
     @Test
     fun testSolution() {
