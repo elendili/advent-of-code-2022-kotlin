@@ -1,7 +1,3 @@
-/*
-https://adventofcode.com/2022/day/3
- */
-
 class Day4 {
     fun rangesToIntPairs(lines: List<String>) : List<Pair<Pair<Int, Int>, Pair<Int, Int>>> =lines.map { it.split(",") }
             .map {

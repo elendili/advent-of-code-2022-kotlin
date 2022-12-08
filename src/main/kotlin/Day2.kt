@@ -1,9 +1,5 @@
 import kotlin.math.absoluteValue
 
-/*
-https://adventofcode.com/2022/day/2
- */
-
 class Day2 {
     /*
         A for Rock, B for Paper, and C for Scissors.

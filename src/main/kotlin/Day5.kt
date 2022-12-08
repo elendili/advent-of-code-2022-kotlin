@@ -1,6 +1,3 @@
-/*
-https://adventofcode.com/2022/day/3
- */
 
 class Day5 {
     data class Move(val amount:Int, val from:Int, val to:Int)
