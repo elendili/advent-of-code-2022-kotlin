@@ -38,9 +38,9 @@ class Day8 {
     fun partOneSolution(lines: List<String>): Int {
         val matrix = linesToMatrix(lines)
         val vm = visibilityFromOutsideMatrix(matrix)
-        println( array2dToString(matrix))
+        println( list2dToString(matrix))
         println()
-        println( array2dToString(vm))
+        println( list2dToString(vm))
         return vm.sumOf { it.sum() }
     }
 
