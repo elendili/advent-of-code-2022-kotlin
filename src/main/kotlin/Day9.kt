@@ -53,7 +53,7 @@ class Day9 {
                      headPosition=newHeadPosition
 
                      whenDebug {
-                         println(Grid(tailLog+newHeadPosition)
+                         println(GridForPath(tailLog+newHeadPosition)
                              .drawOriginalPoints()
                              .drawPoint(newTailPosition,'T').drawPoint(newHeadPosition,'H'))
                          println()
@@ -78,7 +78,7 @@ class Day9 {
                     tailPositionsSet.add(rope.last())
 
                     whenDebug {
-                        println(Grid(rope).drawOriginalEnumeratedPoints())
+                        println(GridForPath(rope).drawOriginalEnumeratedPoints())
                         println()
                     }
                 }
