@@ -16,7 +16,7 @@ fun linesToMatrix(lines: List<String>):List<List<Int>> = lines.map{ line->
     line.map {  it.digitToInt()  }
 }
 
-fun isDebug():Boolean = false
+fun isDebug():Boolean = true
 
 inline fun whenDebug(action: () -> Unit) {
     if(isDebug()) {
