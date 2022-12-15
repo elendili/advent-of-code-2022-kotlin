@@ -54,7 +54,7 @@ class Day9 {
 
                      whenDebug {
                          val combined = tailLog+newHeadPosition
-                         println(Grid(getGridPropertiesFromPoints(combined))
+                         println(Grid(getGridPropertiesFromPairs(combined))
                              .drawPoints(combined,'#')
                              .drawPoint(newTailPosition,'T')
                              .drawPoint(newHeadPosition,'H')
@@ -81,7 +81,7 @@ class Day9 {
                     tailPositionsSet.add(rope.last())
 
                     whenDebug {
-                        println(Grid(getGridPropertiesFromPoints(rope))
+                        println(Grid(getGridPropertiesFromPairs(rope))
                             .drawEnumeratedPoints(rope))
                         println()
                     }

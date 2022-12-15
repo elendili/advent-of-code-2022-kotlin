@@ -7,9 +7,7 @@ data class GridProperties(val width: Int, val height: Int,
                           val maxX: Int, val maxY: Int
                           )
 
-fun getGridPropertiesFromPoints(list: Iterable<Pair<Int, Int>>): GridProperties {
-    val xs = list.map { it.first }
-    val ys = list.map { it.second }
+fun getGridPropertiesFromYXs(xs: Iterable<Int>, ys: Iterable<Int>): GridProperties {
     val maxX = xs.max()
     val minX = xs.min()
     val maxY = ys.max()
@@ -17,6 +15,18 @@ fun getGridPropertiesFromPoints(list: Iterable<Pair<Int, Int>>): GridProperties 
     val widthOfPlane = maxX - minX + 1
     val heightOfPlane = maxY - minY + 1
     return GridProperties(widthOfPlane, heightOfPlane, minX, minY, maxX, maxY)
+}
+
+fun getGridPropertiesFromPairs(list: Iterable<Pair<Int, Int>>): GridProperties {
+    val xs = list.map { it.first }
+    val ys = list.map { it.second }
+    return getGridPropertiesFromYXs(xs,ys)
+}
+
+fun getGridPropertiesFromPointYXs(list: Iterable<PointYX>): GridProperties {
+    val xs = list.map { it.x }
+    val ys = list.map { it.y }
+    return getGridPropertiesFromYXs(xs,ys)
 }
 
 class Grid(val gridProperties: GridProperties) {

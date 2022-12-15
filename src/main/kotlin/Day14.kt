@@ -32,7 +32,7 @@ class Day14 {
 
     fun partOneSolution(lines: List<String>): Int {
         val paths = linesToPaths(lines)
-        val gp = getGridPropertiesFromPoints(paths.flatten()+Pair(500,0))
+        val gp = getGridPropertiesFromPairs(paths.flatten()+Pair(500,0))
         val grid = Grid(gp)
         paths.forEach{grid.drawLines(it,'#')}
         //
@@ -52,10 +52,10 @@ class Day14 {
 
     fun partTwoSolution(lines: List<String>): Int {
         var paths = linesToPaths(lines).toMutableList()
-        var gp = getGridPropertiesFromPoints(paths.flatten()+Pair(500,0))
+        var gp = getGridPropertiesFromPairs(paths.flatten()+Pair(500,0))
         val newH = gp.maxY+2
         paths.add(listOf(Pair(gp.minX-newH, newH),Pair(gp.maxX+newH, newH)))
-        gp = getGridPropertiesFromPoints(paths.flatten()+Pair(500,0))
+        gp = getGridPropertiesFromPairs(paths.flatten()+Pair(500,0))
         val grid = Grid(gp)
         paths.forEach{grid.drawLines(it,'#')}
         var i = 1
