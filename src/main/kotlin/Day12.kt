@@ -33,7 +33,7 @@ class Day12 {
      */
 
     fun drawPathOnGrid(lines:List<String>, path:List<PointYX>):String {
-        val plane:Array<Array<Any>> = Array(lines.size) { Array(lines[0].length) { '.' } }
+        val plane:Array<Array<Char>> = Array(lines.size) { Array(lines[0].length) { '.' } }
         for(i in 0 until path.lastIndex){
             val v = path[i]
             val next = path[i+1]

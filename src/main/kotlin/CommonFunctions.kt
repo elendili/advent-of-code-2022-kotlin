@@ -11,7 +11,7 @@ fun list2dToString(a: List<List<Any>>): String {
     return a.joinToString("\n") { it.joinToString("") }
 }
 
-fun array2dToString(a: Array<Array<*>>): String {
+fun array2dToString(a: Array<Array<Char>>): String {
     return a.joinToString("\n") { it.joinToString("") }
 }
 
