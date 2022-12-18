@@ -114,6 +114,46 @@ class Grid(val gridProperties: GridProperties) {
     }
 }
 
+class PointXYZ(val x: Int = 0, val y: Int = 0, val z:Int = 0) {
+    fun cubeSidesConnected(p: PointXYZ): Boolean {
+        val delta = listOf(
+            (x-p.x).absoluteValue,
+            (y-p.y).absoluteValue,
+            (z-p.z).absoluteValue
+        )
+        return when(delta) {
+            listOf(1, 0, 0) -> true
+            listOf(0, 1, 0) -> true
+            listOf(0, 0, 1) -> true
+            else -> false
+        }
+    }
+
+    override fun toString(): String {
+        return "(x=$x,y=$y,z=$z)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PointXYZ
+
+        if (x != other.x) return false
+        if (y != other.y) return false
+        if (z != other.z) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = x
+        result = 31 * result + y
+        result = 31 * result + z
+        return result
+    }
+
+}
 class PointYX(var y: Int = 0, var x: Int = 0, val backTrack: PointYX? = null) {
     fun x(v: Int) {
         this.x = v
