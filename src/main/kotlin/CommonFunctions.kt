@@ -100,7 +100,7 @@ fun combinationsOfSize(
 
 }
 
-fun isDebug(): Boolean = true
+fun isDebug(): Boolean = false
 
 inline fun whenDebug(action: () -> Unit) {
     if (isDebug()) {
