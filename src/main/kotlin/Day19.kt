@@ -22,15 +22,15 @@ class Day19 {
             val roboInventory: MutableMap<Resource, Int> = mutableMapOf(Pair(ore,1))
             val resourceInventory: MutableMap<Resource, Int> = mutableMapOf<Resource,Int>()
             minutesTarget = minutes
-//            val out = recursion2(0,
-//                roboInventory,
-//                resourceInventory,
-//                listOf()
-//            )
-            val out = recursion(minutes,
+            val out = recursion2(0,
                 roboInventory,
                 resourceInventory,
+                listOf()
             )
+//            val out = recursion(minutes,
+//                roboInventory,
+//                resourceInventory,
+//            )
 
             return out
         }
@@ -137,7 +137,7 @@ class Day19 {
             if(currentMinutes>=minutesTarget || maxPossibleGeodsInBranch<=maxOfGeods){
                 if(curGeodes>=54) {
                     println("$curGeodes .. $currentMinutes .. $roboInventory ... $resourceInventory")
-                    log.forEach{ println(it) }
+                    log.forEachIndexed{ i,it -> println("$i . $it") }
                     println()
                 }
                 maxOfGeods = max(maxOfGeods, curGeodes)
@@ -148,7 +148,7 @@ class Day19 {
                         (roboType,costMap)->
                     val maxRes = maxResourceRequirements.getOrDefault(roboType,0)
                     (roboInventory.getOrDefault(roboType,0) <= maxRes
-                            && resourceInventory.getOrDefault(roboType,0) <=  maxRes
+                            && resourceInventory.getOrDefault(roboType,0) <=  maxRes*2
                             )
                 }
 
@@ -169,7 +169,9 @@ class Day19 {
                     val localRoboInventory = roboInventory.toMutableMap()
 
                     whenDebug {
-                        if (buildRoboType == obsidian && currentMinutes == 12
+                        // expectto see 13. clay, but it shows 13. obsidian
+                        if (buildRoboType == obsidian
+                            && currentMinutes == 12
                             && log.size >= 7
                             && log[4] == "10. clay"
                             && log[5] == "11. clay"
