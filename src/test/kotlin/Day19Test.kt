@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 
 internal class Day19Test {
     private val input = """Blueprint 1:
@@ -49,5 +50,24 @@ Blueprint 2:
     fun solution1() {
         val lines = getResourceAsLines("Day19_data.txt")
         assertEquals(1528, Day19().partOneSolution(lines))
+    }
+    @Test
+    fun solution2() {
+        val lines = getResourceAsLines("Day19_data.txt")
+        assertEquals(16926, Day19().partTwoSolution(lines))
+    }
+
+    @Test
+    @Disabled
+    fun analyze_Solution_1() {
+        val lines = getResourceAsLines("Day19_data.txt")
+        val bs = Day19().linesToBlueprints(lines)
+        println(bs.size) // 30
+        listOf(0, 2, 5, 0, 0, 13, 0, 1, 0, 2, 0, 8, 1, 1, 5, 0, 11, 2, 0, 3, 7, 0, 2, 2, 0, 1, 5, 5, 10, 3)
+        .forEachIndexed { i,expected ->
+            println("Test $i bs for $expected value")
+            assertEquals(expected, bs[i].maxGeodsCanBeOpenedByBlueprint(24))
+        }
+
     }
 }

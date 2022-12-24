@@ -1,6 +1,7 @@
 import Day19.Resource.*
 import java.lang.Integer.max
 
+var solutionType:Boolean=false
 class Day19 {
     enum class Resource{
         ore,clay,obsidian,geode, no
@@ -22,35 +23,42 @@ class Day19 {
             val roboInventory: MutableMap<Resource, Int> = mutableMapOf(Pair(ore,1))
             val resourceInventory: MutableMap<Resource, Int> = mutableMapOf<Resource,Int>()
             minutesTarget = minutes
-            val out = recursion2(0,
-                roboInventory,
-                resourceInventory,
-                listOf()
-            )
-//            val out = recursion(minutes,
-//                roboInventory,
-//                resourceInventory,
-//            )
+
+            val out = if(solutionType){
+                everyStepRecursion(0,
+                    roboInventory,
+                    resourceInventory,
+                    listOf()
+                )
+            } else {
+                jumpRecursion(0,
+                    roboInventory,
+                    resourceInventory,
+                    listOf()
+                )
+            }
 
             return out
         }
 
         var maxOfGeods = 0
         var minutesTarget = 0
-        fun recursion(
+        fun everyStepRecursion(
                       currentMinutes:Int,
                       roboInventory: Map<Resource, Int>,
-                      resourceInventory: Map<Resource, Int>
+                      resourceInventory: Map<Resource, Int>,
+                      log:List<String>
         ):Int{
             // optimize by dropping branches where
             // impossible to get more geods than maximum
             val curGeodes = resourceInventory.getOrDefault(geode,0)
+            val leftMinutes = minutesTarget - currentMinutes
             val maxPossibleGeodsInBranch =
-                curGeodes + (0 until currentMinutes).sum() +
-                        currentMinutes*roboInventory.getOrDefault(geode,0)
+                curGeodes + (0 until leftMinutes).sum() +
+                        leftMinutes*roboInventory.getOrDefault(geode,0)
 
             //choose
-            if(currentMinutes==0 || maxPossibleGeodsInBranch<=maxOfGeods){
+            if(currentMinutes>=minutesTarget || maxPossibleGeodsInBranch<=maxOfGeods){
                 maxOfGeods = max(maxOfGeods, curGeodes)
                 return curGeodes
             } else {
@@ -81,14 +89,14 @@ class Day19 {
                 }
 
                 // iterate over different choices
-                val out = variations.map { (actionType, robotCosts) ->
+                val out = variations.map { (buildRoboType, robotCosts) ->
 
                     val localResourceInventory = resourceInventory.toMutableMap()
                     val localRoboInventory = roboInventory.toMutableMap()
 
                     // spend resources for robot
-                    if(actionType!= no) {
-                        this.robotCosts[actionType]!!.forEach { (res, amount) ->
+                    if(buildRoboType!= no) {
+                        this.robotCosts[buildRoboType]!!.forEach { (res, amount) ->
                             localResourceInventory[res] = localResourceInventory[res]!! - amount
                         }
                     }
@@ -101,16 +109,17 @@ class Day19 {
                     }
 
                     // update robo inventory
-                    if(actionType!= no) {
-                        localRoboInventory.compute(actionType) { _, robotsCount ->
+                    if(buildRoboType!= no) {
+                        localRoboInventory.compute(buildRoboType) { _, robotsCount ->
                             if (robotsCount == null) 1 else robotsCount + 1
                         }
                     }
 
-                    recursion(
-                        currentMinutes-1,
+                    everyStepRecursion(
+                        currentMinutes+1,
                         localRoboInventory,
-                        localResourceInventory
+                        localResourceInventory,
+                        log + "$currentMinutes. $buildRoboType. robots=$localRoboInventory. resources=$localResourceInventory"
                     )
                 }.max()
                 return out
@@ -119,7 +128,7 @@ class Day19 {
 
         }
 
-        fun recursion2(
+        fun jumpRecursion(
                       currentMinutes:Int,
                       roboInventory: Map<Resource, Int>,
                       resourceInventory: Map<Resource, Int>,
@@ -135,11 +144,6 @@ class Day19 {
 
             //choose
             if(currentMinutes>=minutesTarget || maxPossibleGeodsInBranch<=maxOfGeods){
-                if(curGeodes>=54) {
-                    println("$curGeodes .. $currentMinutes .. $roboInventory ... $resourceInventory")
-                    log.forEachIndexed{ i,it -> println("$i . $it") }
-                    println()
-                }
                 maxOfGeods = max(maxOfGeods, curGeodes)
                 return curGeodes
             } else {
@@ -168,25 +172,7 @@ class Day19 {
                     val localResourceInventory = resourceInventory.toMutableMap()
                     val localRoboInventory = roboInventory.toMutableMap()
 
-                    whenDebug {
-                        // expectto see 13. clay, but it shows 13. obsidian
-                        if (buildRoboType == obsidian
-                            && currentMinutes == 12
-                            && log.size >= 7
-                            && log[4] == "10. clay"
-                            && log[5] == "11. clay"
-                            && log[6] == "12. clay"
-                        ) {
-                            println("a.--------")
-                            println("currentMinutes=$currentMinutes")
-                            println("buildRoboType=$buildRoboType")
-                            println("localRoboInventory=$localRoboInventory")
-                            println("localResourceInventory=$localResourceInventory")
-                            println("--------")
-                        }
-                    }
                     // calc required minutes to build this robot type
-
                     val requiredMinutes = 1 + robotCosts.map{ (res,cost) ->
                         val roboCount = localRoboInventory.getOrDefault(res,0)
                         val costToCoverByProduction = cost - localResourceInventory.getOrDefault(res,0)
@@ -217,32 +203,17 @@ class Day19 {
                         }
 
                         // go to recursion
-                        val newMinutes = currentMinutes + requiredMinutes
-
-                        whenDebug {
-                            if (buildRoboType == obsidian && currentMinutes == 12
-                                && log.size >= 7
-                                && log[4] == "10. clay"
-                                && log[5] == "11. clay"
-                                && log[6] == "12. clay"
-                            ) {
-                                println("b.--------")
-                                println("currentMinutes=$currentMinutes")
-                                println("newMinutes=$newMinutes")
-                                println("requiredMinutes=$requiredMinutes")
-                                println("localRoboInventory=$localRoboInventory")
-                                println("localResourceInventory=$localResourceInventory")
-                                println("--------")
-                            }
-                        }
-                        recursion2(
+                        var newMinutes = currentMinutes + requiredMinutes
+                        jumpRecursion(
                             newMinutes,
                             localRoboInventory,
                             localResourceInventory,
-                            log + "$newMinutes. $buildRoboType"
+                            log + "$newMinutes. $buildRoboType. robots=$localRoboInventory. resources=$localResourceInventory"
                         )
                     } else {
-                        0
+                        // calc gathered geodes during left minutes till the end
+                        val geods = resourceInventory.getOrDefault(geode,0)+(roboInventory.getOrDefault(geode,0)*leftMinutes)
+                        geods
                     }
 
                 }.max()
