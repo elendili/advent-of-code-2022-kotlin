@@ -16,6 +16,9 @@ dependencies {
     implementation(kotlin("test"))
     implementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
     implementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-scripting-jsr223
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jsr223:1.8.0-RC2")
+
 }
 
 tasks.test {

@@ -27,6 +27,13 @@ fun String.toLongOp(): Long.(Long) -> Long = when (this.trim()) {
     "/" -> Long::div
     else -> error("Unknown operator $this")
 }
+fun String.toReversedArithmeticOperation(): String = when (this.trim()) {
+    "+" -> "-"
+    "-" -> "+"
+    "*" -> "/"
+    "/" -> "*"
+    else -> error("Unknown operator $this")
+}
 fun String.toBigDecimalOp(): BigDecimal.(BigDecimal) -> BigDecimal = when (this.trim()) {
     "+" -> BigDecimal::plus
     "-" -> BigDecimal::minus
