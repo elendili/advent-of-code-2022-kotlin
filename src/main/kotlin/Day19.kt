@@ -1,7 +1,6 @@
 import Day19.Resource.*
 import java.lang.Integer.max
 
-var solutionType:Boolean=false
 class Day19 {
     enum class Resource{
         ore,clay,obsidian,geode, no
@@ -24,7 +23,7 @@ class Day19 {
             val resourceInventory: MutableMap<Resource, Int> = mutableMapOf<Resource,Int>()
             minutesTarget = minutes
 
-            val out = if(solutionType){
+            val out = if(false){
                 everyStepRecursion(0,
                     roboInventory,
                     resourceInventory,
