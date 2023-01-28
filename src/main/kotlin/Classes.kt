@@ -155,20 +155,20 @@ class PointXYZ(val x: Int = 0, val y: Int = 0, val z:Int = 0) {
 
 }
 
-val downDelta = PointYX(1,0)
-val upDelta = PointYX(-1,0)
-val rightDelta = PointYX(0,1)
-val leftDelta = PointYX(0,-1)
-data class PositionAndDirection(val position:PointYX, val direction:PointYX=rightDelta){
+val downDirection = PointYX(1,0)
+val upDirection = PointYX(-1,0)
+val rightDirection = PointYX(0,1)
+val leftDirection = PointYX(0,-1)
+data class PositionAndDirection(val position:PointYX, val direction:PointYX=rightDirection){
     fun stepForward():PositionAndDirection{
         return PositionAndDirection(position.applyDelta(direction),direction)
     }
     fun rotateRight():PositionAndDirection{
         val newD = when(direction) {
-            downDelta-> leftDelta
-            upDelta-> rightDelta
-            rightDelta-> downDelta
-            leftDelta-> upDelta
+            downDirection-> leftDirection
+            upDirection-> rightDirection
+            rightDirection-> downDirection
+            leftDirection-> upDirection
             else -> error("Unknown delta: $direction")
         }
         return PositionAndDirection(position,newD)
@@ -176,10 +176,10 @@ data class PositionAndDirection(val position:PointYX, val direction:PointYX=righ
 
     fun rotateLeft():PositionAndDirection{
         val newD = when(direction) {
-            downDelta-> rightDelta
-            upDelta-> leftDelta
-            rightDelta-> upDelta
-            leftDelta-> downDelta
+            downDirection-> rightDirection
+            upDirection-> leftDirection
+            rightDirection-> upDirection
+            leftDirection-> downDirection
             else -> error("Unknown delta: $direction")
         }
         return PositionAndDirection(position,newD)

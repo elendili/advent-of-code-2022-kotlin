@@ -3,7 +3,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
 class Day22Test {
-    private val input = """        ...#
+    private val input = """
+        ...#
         .#..
         #...
         ....
@@ -16,7 +17,7 @@ class Day22Test {
         .#......
         ......#.
 
-10R5L5R10L4R5L5""".lines()
+10R5L5R10L4R5L5""".lines().filter{it.isNotEmpty()}
 
 
     @Test
