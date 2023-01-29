@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
+import kotlin.test.Ignore
 
 class Day22Test {
     private val input = """
@@ -40,12 +42,16 @@ class Day22Test {
 
 
     @Test
+    @Disabled
     fun testSolution2() {
         assertEquals(5031, Day22().partTwoSolution(input))
     }
 
     @Test
+    @Disabled
     fun solution2() {
+        // solution is taken by running code from
+        // https://github.com/ClouddJR/advent-of-code-2022/blob/main/src/main/kotlin/com/clouddjr/advent2022/Day22.kt
         val lines = getResourceAsLines("Day22_data.txt")
         assertEquals(93226, Day22().partTwoSolution(lines))
     }

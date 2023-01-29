@@ -233,6 +233,46 @@ class PointYX(var y: Int = 0, var x: Int = 0, val backTrack: PointYX? = null) {
         return getPathToStart().reversed()
     }
 
+    fun getAllNeighbours(): List<PointYX> {
+        return listOf(
+            PointYX(y-1,x-1),
+            PointYX(y-1,x),
+            PointYX(y-1,x+1),
+
+            PointYX(y, x-1),
+            PointYX(y, x+1),
+
+            PointYX(y+1,x-1),
+            PointYX(y+1,x),
+            PointYX(y+1,x+1),
+        )
+    }
+    // north, south, west, east
+    fun getNeighboursBySide(): List<List<PointYX>> {
+        return listOf(
+            listOf(//north
+                PointYX(y-1,x-1),
+                PointYX(y-1,x),
+                PointYX(y-1,x+1)
+            ),
+            listOf(//south
+                PointYX(y+1,x-1),
+                PointYX(y+1,x),
+                PointYX(y+1,x+1)
+            ),
+            listOf( // west
+                PointYX(y-1,x-1),
+                PointYX(y,  x-1),
+                PointYX(y+1,x-1)
+            ),
+            listOf( // east
+                PointYX(y-1,x+1),
+                PointYX(y,  x+1),
+                PointYX(y+1,x+1)
+            )
+        )
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
