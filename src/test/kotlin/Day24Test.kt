@@ -26,6 +26,6 @@ class Day24Test {
     }
     @Test
     fun solution2() {
-        assertEquals(245, Day24(getResourceAsLines("Day24_data.txt")).solvePart2())
+        assertEquals(798, Day24(getResourceAsLines("Day24_data.txt")).solvePart2())
     }
 }
