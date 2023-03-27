@@ -160,8 +160,24 @@ val upDirection = PointYX(-1,0)
 val rightDirection = PointYX(0,1)
 val leftDirection = PointYX(0,-1)
 data class PositionAndDirection(val position:PointYX, val direction:PointYX=rightDirection){
+    constructor(y:Int, x:Int, dirChar:Char) : this(PointYX(y,x),dirChar)
+    constructor(y:Int, x:Int, dir:PointYX) : this(PointYX(y,x),dir)
+    constructor(position:PointYX, dirChar:Char) :
+            this(position,when(dirChar){
+                '>'->rightDirection
+                '<'->leftDirection
+                '^'->upDirection
+                'v'->downDirection
+                else -> throw Error("Unknown char direction '$dirChar'")
+            })
     fun stepForward():PositionAndDirection{
         return PositionAndDirection(position.applyDelta(direction),direction)
+    }
+    fun setX(x:Int):PositionAndDirection{
+        return PositionAndDirection(position.y, x, direction)
+    }
+    fun setY(y:Int):PositionAndDirection{
+        return PositionAndDirection(y, position.x, direction)
     }
     fun rotateRight():PositionAndDirection{
         val newD = when(direction) {
@@ -233,19 +249,24 @@ class PointYX(var y: Int = 0, var x: Int = 0, val backTrack: PointYX? = null) {
         return getPathToStart().reversed()
     }
 
-    fun getAllNeighbours(): List<PointYX> {
+    fun getManhattanNeighbours(): List<PointYX> {
         return listOf(
-            PointYX(y-1,x-1),
             PointYX(y-1,x),
-            PointYX(y-1,x+1),
-
+            PointYX(y+1,x),
             PointYX(y, x-1),
             PointYX(y, x+1),
-
-            PointYX(y+1,x-1),
-            PointYX(y+1,x),
-            PointYX(y+1,x+1),
         )
+    }
+    fun getDiagonalNeighbours(): List<PointYX> {
+        return listOf(
+            PointYX(y-1,x-1),
+            PointYX(y-1,x+1),
+            PointYX(y+1, x-1),
+            PointYX(y+1, x+1),
+        )
+    }
+    fun getAllNeighbours(): List<PointYX>{
+        return getManhattanNeighbours().plus(getDiagonalNeighbours())
     }
     // north, south, west, east
     fun getNeighboursBySide(): List<List<PointYX>> {
