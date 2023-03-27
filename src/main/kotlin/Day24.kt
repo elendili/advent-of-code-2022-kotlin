@@ -31,12 +31,6 @@ class Day24(val lines: List<String>) {
         return out
     }
 
-    fun snapshot(p: PointYX, blizzards: Set<PositionAndDirection>): Set<PositionAndDirection> {
-        val out = blizzards + PositionAndDirection(p, PointYX(1, 1))
-        return out
-    }
-
-
     class State(private val blizzards: Set<PositionAndDirection>, val height:Int, val width:Int) {
         private val occupiedPositions = blizzards.map { it.position }.toSet()
         fun occupied(c:PositionAndDirection): Boolean {
@@ -93,25 +87,40 @@ class Day24(val lines: List<String>) {
             states.add(lastState)
             lastIndex++
         }
+
+        fun cleanVisited() {
+            visited.clear()
+            lastIndex = 0
+        }
     }
 
 /*
 blizzard position to check coordinates
 blizzards to check system state
  */
-    fun searchPathMinutes(): Int {
-        val states = States(blizzards,start)
+    fun searchPathMinutes(path:List<PointYX>): Int {
+        val states = States(blizzards, path.first())
+        val out = path.windowed(2).mapIndexed { index, (from,to) ->
+            states.cleanVisited()
+            var minutes = searchPathMinutes(from, to, states) + (if (index==0) 0 else 1)
+            println("$index. from=$from, to=$to, minutes=$minutes")
+            minutes
+        }
 
-        val q = LinkedList<PointYX>()
-        q.add(start)
+        return out.sum();
+    }
+    fun searchPathMinutes(from:PointYX,to:PointYX,states:States): Int {
+        val q = mutableSetOf<PointYX>()
+        q.add(from)
         while (q.isNotEmpty()) {
 
             // before level processing
             var levelSize = q.size
-            println("${states.index()}. visited=${states.visitedCount()}. levelSize=${levelSize}")
+//            println("${states.index()}. visited=${states.visitedCount()}. levelSize=${levelSize}.")
             while (levelSize-- > 0) {
-                val c = q.poll()
-                if (c == finish) {
+                val c = q.iterator().next()
+                q.remove(c)
+                if (c == to) {
                     return states.index() - 1;
                 }
                 if (states.addVisited(c)) {
@@ -128,6 +137,9 @@ blizzards to check system state
     }
 
     fun solvePart1(): Int {
-        return searchPathMinutes()
+        return searchPathMinutes(listOf(start,finish))
+    }
+    fun solvePart2(): Int {
+        return searchPathMinutes(listOf(start,finish,start,finish))
     }
 }
